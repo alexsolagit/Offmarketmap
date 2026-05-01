@@ -1,0 +1,45 @@
+name: Update Off-Market Map
+
+on:
+  schedule:
+    # Tuesday 8:00 AM Pacific Time (UTC-7 in summer, UTC-8 in winter)
+    # Using 15:00 UTC which covers both (8am PDT / 7am PST — close enough)
+    - cron: '0 15 * * 2'
+    # Friday 8:00 AM Pacific Time
+    - cron: '0 15 * * 5'
+  # Allow manual trigger from GitHub Actions tab anytime
+  workflow_dispatch:
+
+jobs:
+  update-map:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit and push
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run map updater
+        run: python scripts/update_map.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add listings.json offmarket-confidential.html offmarket-full.html
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes — nothing to commit."
+          else
+            DATE=$(date -u '+%Y-%m-%d %H:%M UTC')
+            TOTAL=$(python -c "import json; d=json.load(open('listings.json')); print(len(d))")
+            git commit -m "Map update $DATE — $TOTAL listings"
+            git push
+            echo "Pushed updated map files."
+          fi
