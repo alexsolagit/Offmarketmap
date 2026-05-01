@@ -148,7 +148,11 @@ def parse_price(text, ltype):
         m = re.search(pat, t)
         if not m:
             continue
-        num = float(m.group(1))
+        raw_num = m.group(1).replace(',', '').replace('.', '', m.group(1).count('.')-1) if m.group(1).count('.') > 1 else m.group(1).replace(',', '')
+        try:
+            num = float(raw_num)
+        except (ValueError, TypeError):
+            continue
         if unit == 'M':
             praw = num * 1000   # in K
         elif unit == 'K':
