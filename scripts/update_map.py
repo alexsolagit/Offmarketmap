@@ -385,11 +385,18 @@ def diff_and_merge(current, doc_listings):
     doc_keys = {d["doc_key"] for d in doc_listings}
     next_id = max((l["id"] for l in current), default=0) + 1
 
-    # Remove listings gone from doc
-    removed = [l for l in current if l.get("doc_key") and l["doc_key"] not in doc_keys]
-    for r in removed:
-        changelog.append(f"  REMOVED id={r['id']} {r.get('address','')} ({r['city']})")
-    kept = [l for l in current if not l.get("doc_key") or l["doc_key"] in doc_keys]
+    # Remove listings gone from doc — only if parser confidence is high enough
+    # If doc found < 80% of current listings, parser likely missed entries; skip removals
+    confidence = len(doc_listings) / max(len(current), 1)
+    if confidence >= 0.90:
+        removed = [l for l in current if l.get("doc_key") and l["doc_key"] not in doc_keys]
+        for r in removed:
+            changelog.append(f"  REMOVED id={r['id']} {r.get('address','')} ({r['city']})")
+        kept = [l for l in current if not l.get("doc_key") or l["doc_key"] in doc_keys]
+    else:
+        removed = []
+        kept = current[:]
+        changelog.append(f"  SKIPPED removals — parser confidence {confidence:.0%} < 90%, keeping all {len(current)} listings")
 
     new_count = 0
     for d in doc_listings:
@@ -499,13 +506,33 @@ def to_js(listings, confidential=False):
     return '[\n' + ',\n'.join(rows) + '\n]'
 
 # ── INJECT INTO HTML ──────────────────────────────────────────────────────────
-ARRAY_RE = re.compile(r'(const listings\s*=\s*)(\[[\s\S]*?\]);', re.MULTILINE)
-BADGE_RE  = re.compile(r'(<div[^>]*id="count-badge"[^>]*>)\d+ Listings(</div>)')
+BADGE_RE = re.compile(r'(<div[^>]*id="count-badge"[^>]*>)\d+ Listings(</div>)')
+FCOUNT_RE = re.compile(r'(<span id="fcount">)\d+ listings(</span>)')
 
 def inject(html, listings, confidential=False):
     js = to_js(listings, confidential)
-    html = ARRAY_RE.sub(lambda m: m.group(1) + js + ';', html)
-    html = BADGE_RE.sub(lambda m: m.group(1) + f'{len(listings)} Listings' + m.group(2), html)
+
+    # Bracket-match the array — works regardless of spacing or size
+    for marker in ['const listings=', 'const listings =']:
+        idx = html.find(marker)
+        if idx >= 0:
+            bracket = html.index('[', idx)
+            depth = 0
+            i = bracket
+            while i < len(html):
+                if html[i] == '[': depth += 1
+                elif html[i] == ']':
+                    depth -= 1
+                    if depth == 0:
+                        html = html[:bracket] + js + html[i+1:]
+                        break
+                i += 1
+            break
+
+    # Update count badges
+    count = len(listings)
+    html = BADGE_RE.sub(lambda m: m.group(1) + f'{count} Listings' + m.group(2), html)
+    html = FCOUNT_RE.sub(lambda m: m.group(1) + f'{count} listings' + m.group(2), html)
     return html
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
@@ -558,6 +585,11 @@ def main():
     with open(LISTINGS_JSON, "w") as f:
         json.dump(updated, f, indent=2)
     print(f"  Saved {len(updated)} listings → listings.json")
+
+    # Safety: never write HTML if count dropped (means something went wrong)
+    if len(updated) < len(current):
+        print(f"  WARNING: updated count ({len(updated)}) < current ({len(current)}) — skipping HTML write")
+        sys.exit(1)
 
     # Rebuild HTML
     for path, conf in [(CONFIDENTIAL_HTML, True), (FULL_HTML, False)]:
