@@ -586,11 +586,6 @@ def main():
         json.dump(updated, f, indent=2)
     print(f"  Saved {len(updated)} listings → listings.json")
 
-    # Safety: never write HTML if count dropped (means something went wrong)
-    if len(updated) < len(current):
-        print(f"  WARNING: updated count ({len(updated)}) < current ({len(current)}) — skipping HTML write")
-        sys.exit(1)
-
     # Rebuild HTML
     for path, conf in [(CONFIDENTIAL_HTML, True), (FULL_HTML, False)]:
         if not path.exists():
