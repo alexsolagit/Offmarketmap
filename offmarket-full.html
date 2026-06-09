@@ -155,7 +155,7 @@ header{background:var(--deep);display:flex;align-items:center;height:80px;border
   </div>
   <span class="h-sub">Private · Full Address Access · DRE# 02346975</span>
   <div class="hb">
-    <div class="badge" id="count-badge">140 Listings</div>
+    <div class="badge" id="count-badge">141 Listings</div>
     <div class="badge">For Sale &amp; Lease</div>
   </div>
 </header>
@@ -223,7 +223,7 @@ header{background:var(--deep);display:flex;align-items:center;height:80px;border
       </div>
       <div class="mf-row">
         <span>Shoreview Partners · <span class="mf-gold">ShoreviewPartners.us</span></span>
-        <span id="fcount">140 listings</span>
+        <span id="fcount">141 listings</span>
       </div>
     </div>
   </div>
@@ -377,7 +377,8 @@ const listings=[
   {id:137,type:"sale",address:"1762 doug.edward",city:"Torrance",state:"CA",lat:33.8358,lng:-118.3406,price:"$1.62MM",praw:1625.0,beds:3,baths:3.0,sqftRaw:null,sqft:null,offmkt:true,newStatus:false,priceWas:null,color:"#C9A84C",notes:"Hidden Gem SFR in Area 125 Torrance Country Hills to Make Your Own Just off Hawthorne Blvd. side of Country Hills a 3 bedroom and 3 bath Gem that is over 2000+ sf with a large lot boasting a saltwater pool and spa and ou",agent:"Real Brokerage",phone:"310-809-1762",broker:"Real Brokerage"},
   {id:138,type:"sale",address:"18913 Haas Ave",city:"Redondo Beach",state:"CA 90504",lat:33.8492,lng:-118.3884,price:"$4K",praw:4.0,beds:4,baths:2.0,sqftRaw:1605,sqft:"1,605",offmkt:true,newStatus:false,priceWas:null,color:"#3B6D11",notes:"Gorgeous 4 bedroom single-level home in North Torrance. Has been remodeled since my sellers purchased it. Open floor plan. Very well redone. Currently renters are working on moving out and sellers will be doing some touc",agent:"Nicole Miller",phone:"310-994-1942",broker:""},
   {id:139,type:"lease",address:"Rancho Palos Verdes (area)",city:"Rancho Palos Verdes",state:"CA",lat:33.7446,lng:-118.387,price:"$9,000/mo",praw:9.0,beds:5,baths:3.0,sqftRaw:4197,sqft:"4,197",offmkt:true,newStatus:false,priceWas:null,color:"#885590",notes:"Furnished home. Available for lease for June and July. Perfect for anyone remodeling or in between homes.",agent:"June Shim",phone:"310-486-7197",broker:"Coldwell Banker Realty; 01985094"},
-  {id:140,type:"sale",address:"1066 Monterey Blvd",city:"Hermosa Beach",state:"CA",lat:33.8622,lng:-118.3995,price:"$5.50MM",praw:5500.0,beds:8,baths:6.0,sqftRaw:null,sqft:null,offmkt:true,newStatus:"recent",priceWas:null,color:"#B8860B",notes:"Drive By only- Tenants are not aware of sale: Email me for more details",agent:"Eric Fonoimoana",phone:"310-350-5578",broker:""}
+  {id:140,type:"sale",address:"1066 Monterey Blvd",city:"Hermosa Beach",state:"CA",lat:33.8622,lng:-118.3995,price:"$5.50MM",praw:5500.0,beds:8,baths:6.0,sqftRaw:null,sqft:null,offmkt:true,newStatus:false,priceWas:null,color:"#534AB7",notes:"Drive By only- Tenants are not aware of sale: Email me for more details",agent:"Eric Fonoimoana",phone:"310-350-5578",broker:""},
+  {id:141,type:"sale",address:"2710 Pine Ave",city:"Manhattan Beach",state:"CA",lat:33.8845,lng:-118.4077,price:"$2.71MM",praw:2710.0,beds:4,baths:3.0,sqftRaw:3072,sqft:"3,072",offmkt:true,newStatus:"new",priceWas:null,color:"#2E7D32",notes:"Off-Market Opportunity in Manhattan Beach Tree Section Located in the highly desirable Tree Section, this custom built home designed by Jon Starr offers soaring ceilings, spacious living areas, warm wood finishes, and a ",agent:"DRE #01993942",phone:"(310) 386-0697",broker:"From Carla Hoffman...MB Tree Section Have:"}
 ];
 const cityColors={"Manhattan Beach":"#185FA5","Redondo Beach":"#3B6D11","Hermosa Beach":"#534AB7","Torrance":"#C9A84C","Hawthorne":"#993C1D","Rancho Palos Verdes":"#885590","Palos Verdes Estates":"#885590","Rolling Hills Estates":"#885590","Lawndale":"#BA7517","Los Angeles":"#6B7A8D","Long Beach":"#6B7A8D","Pacific Palisades":"#6B7A8D","Lomita":"#BA7517","Gardena":"#5D6D7E","Carson":"#7D6E5D"};
 listings.forEach(l=>{l.ppsf=(l.type==='sale'&&l.praw&&l.sqftRaw)?Math.round((l.praw*1000)/l.sqftRaw):null;});
