@@ -2210,7 +2210,7 @@
     "agent": "Amanda Jacobellis",
     "phone": "310-497-8385",
     "broker": "From Amanda Jacobellis...HB Have:",
-    "_pwCycles": 0
+    "_pwCycles": 1
   },
   {
     "id": 97,
@@ -3478,5 +3478,28 @@
     "agent": "",
     "phone": "",
     "broker": ""
+  },
+  {
+    "id": 152,
+    "doc_key": "12331\nfirst|palos verdes estates|sale",
+    "type": "sale",
+    "city": "Palos Verdes Estates",
+    "state": "CA",
+    "address": "12331\nFirst",
+    "lat": 33.7972,
+    "lng": -118.3977,
+    "price": "$3.75MM",
+    "praw": 3750.0,
+    "beds": 2,
+    "baths": null,
+    "sqftRaw": null,
+    "sqft": null,
+    "offmkt": true,
+    "newStatus": "new",
+    "priceWas": null,
+    "notes": "Palos Verdes Estates Malaga Cove (More Info Upon Request) First time on the market in 40+ years, Via Del Monte ocean side of the street, property is positioned on rear of the lot and driveway has parking for up to 6 cars",
+    "agent": "First time on the market in 40+ years, Via Del Monte ocean s",
+    "phone": "(310) 686-9361",
+    "broker": "COMPASS | 01863340"
   }
 ]
