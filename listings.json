@@ -4122,5 +4122,28 @@
     "agent": "Rene Sandera",
     "phone": "310 748-3816",
     "broker": ""
+  },
+  {
+    "id": 180,
+    "doc_key": "15206 condon ave|lawndale|sale",
+    "type": "sale",
+    "city": "Lawndale",
+    "state": "CA 90260",
+    "address": "15206 Condon ave",
+    "lat": 33.8872,
+    "lng": -118.3526,
+    "price": "$925K",
+    "praw": 925.0,
+    "beds": 3,
+    "baths": 2.0,
+    "sqftRaw": null,
+    "sqft": null,
+    "offmkt": true,
+    "newStatus": "new",
+    "priceWas": null,
+    "notes": "Single-level home in the heart of the South Bay, bordered by the Beach Cities and conveniently located in North Lawndale (area 112). The home features 3 bedrooms, 2 bathrooms, 2 versatile bonus spaces, and a separate att",
+    "agent": "Tanja Miletic",
+    "phone": "(310) 866 7154",
+    "broker": "Vista Sothebys MB"
   }
 ]
